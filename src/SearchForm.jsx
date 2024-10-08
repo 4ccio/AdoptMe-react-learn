@@ -1,29 +1,26 @@
 export default function SearchFrom({
   animals,
-  location,
-  setLocation,
   animal,
   setAnimal,
-  breed,
-  setBreed,
   breeds,
-  requestPets,
+  setRequestParams,
 }) {
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        requestPets();
+        const formData = new FormData(e.target);
+        const obj = {
+          animal: formData.get("animal") ?? "",
+          breed: formData.get("breed") ?? "",
+          location: formData.get("location") ?? "",
+        };
+        setRequestParams(obj);
       }}
     >
       <label htmlFor="location">
         Location
-        <input
-          id="location"
-          value={location}
-          placeholder="Location"
-          onChange={(e) => setLocation(e.target.value)}
-        />
+        <input id="location" name="location" placeholder="Location" />
       </label>
 
       <label htmlFor="animal">
@@ -33,11 +30,9 @@ export default function SearchFrom({
           value={animal}
           onChange={(e) => {
             setAnimal(e.target.value);
-            setBreed("");
           }}
           onBlur={(e) => {
             setAnimal(e.target.value);
-            setBreed("");
           }}
         >
           <option />
@@ -51,13 +46,7 @@ export default function SearchFrom({
 
       <label htmlFor="breed">
         Breed
-        <select
-          disabled={!breeds.length}
-          id="breed"
-          value={breed}
-          onChange={(e) => setBreed(e.target.value)}
-          onBlur={(e) => setBreed(e.target.value)}
-        >
+        <select disabled={!breeds.length} id="breed" name="breed">
           <option />
           {breeds.map((breed) => (
             <option key={breed} value={breed}>
