@@ -4,6 +4,7 @@ export default function SearchFrom({
   setAnimal,
   breeds,
   setRequestParams,
+  adoptedPet,
 }) {
   return (
     <form
@@ -18,6 +19,11 @@ export default function SearchFrom({
         setRequestParams(obj);
       }}
     >
+      {adoptedPet ? (
+        <div className="pet image-container">
+          <img src={adoptedPet.images[0]} alt={adoptedPet.name}></img>
+        </div>
+      ) : null}
       <label htmlFor="location">
         Location
         <input id="location" name="location" placeholder="Location" />
